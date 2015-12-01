@@ -11,6 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20151130222105) do
 
   create_table "categories", force: :cascade do |t|
@@ -18,12 +19,16 @@ ActiveRecord::Schema.define(version: 20151130222105) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+=======
+ActiveRecord::Schema.define(version: 20151123135238) do
+>>>>>>> 6d5d9cd7ecbd7caf6903b80376004256dd51da94
 
   create_table "items", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
     t.float    "price"
     t.integer  "user_id"
+<<<<<<< HEAD
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.string   "image_file_name"
@@ -31,6 +36,10 @@ ActiveRecord::Schema.define(version: 20151130222105) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.integer  "category_id"
+=======
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+>>>>>>> 6d5d9cd7ecbd7caf6903b80376004256dd51da94
   end
 
   add_index "items", ["user_id"], name: "index_items_on_user_id"
