@@ -1,0 +1,22 @@
+<h2><%= current_user.username.capitalize %>'s Items</h2>
+<% current_user.items.each do |item| %>
+<div class="col-md-12">
+    <div class= 'panel'>
+      <div class= 'panel-heading'>
+          <h4><strong><%=link_to item.title, item%></strong></h4>
+      </div>
+      <div class= 'panel-body'>
+         <div style = "height:150px;">
+                           <%= image_tag item.image.url(:thumb) %>
+                       </div>
+          <p><%= item.description[0..100] %>...</p>
+          <p>[<%=link_to 'READ MORE', item%>]</p>
+          <p><strong><%= number_to_currency item.price %></strong></p>
+          <p>Created at: <%= item.created_at.strftime('%D at %r')%></p>
+          <p>Last updated: <%= item.updated_at.strftime('%D at %r')%></p>
+      </div>
+        <%=link_to 'Edit', edit_item_path(item), class: 'btn btn-warning' %>
+        <%=link_to 'Delete', item, method: :delete, data: { confirm: 'Are you sure?'}, class:'btn btn-danger' %>
+    </div>
+  </div>
+<%end%>
