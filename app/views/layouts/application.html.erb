@@ -21,7 +21,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-<<<<<<< HEAD
+
       
       <ul class="nav navbar-nav">
         <li><%= link_to "All Items", items_path %></li>
@@ -37,15 +37,6 @@
         </li>
       </ul>
     </div>
-    
-    
-=======
-      <%= link_to "Items", items_path, class: "navbar-brand" %>
-      <ul class="nav navbar-nav">
-      <li><%= link_to "New Items", new_item_path, class: "navbar-brand" %></li>
-      </ul>
-    </div>
->>>>>>> 6d5d9cd7ecbd7caf6903b80376004256dd51da94
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -53,8 +44,8 @@
 
       <ul class="nav navbar-nav navbar-right">
         
-        <li><%= link_to "Sign Out", destroy_user_session_path, :method => :delete, class: "navbar-brand" %></li>
-        <li> <%= link_to "Edit Profile", edit_user_registration_path, class: "navbar-brand" %></li>
+        <li><%= link_to "Sign Out", destroy_user_session_path, :method => :delete %></li>
+        <li> <%= link_to "Edit Profile", edit_user_registration_path %></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -72,7 +63,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-<<<<<<< HEAD
+      
       <ul class="nav navbar-nav">
         <li><%= link_to "All Items", items_path %></li>
         <li class = "dropdown">
@@ -84,10 +75,7 @@
         </ul>
         </li>
       </ul>
-=======
-      <%= link_to "Items", items_path, class: "navbar-brand" %>
 
->>>>>>> 6d5d9cd7ecbd7caf6903b80376004256dd51da94
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -95,8 +83,8 @@
       
 
       <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "Sign Up", new_user_registration_path, class: "navbar-brand" %></li>
-        <li><%= link_to "Sign In", new_user_session_path, class: "navbar-brand" %></li>
+        <li><%= link_to "Sign Up", new_user_registration_path %></li>
+        <li><%= link_to "Sign In", new_user_session_path %></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

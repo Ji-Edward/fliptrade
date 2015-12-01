@@ -17,18 +17,16 @@ class ItemsController < ApplicationController
   # GET /items/new
   def new
     @item = Item.new
-<<<<<<< HEAD
+
     @categories = Category.all
-=======
->>>>>>> 6d5d9cd7ecbd7caf6903b80376004256dd51da94
+
   end
 
   # GET /items/1/edit
   def edit
-<<<<<<< HEAD
+
     @categories = Category.all
-=======
->>>>>>> 6d5d9cd7ecbd7caf6903b80376004256dd51da94
+
   end
 
   # POST /items
@@ -79,10 +77,10 @@ class ItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def item_params
-<<<<<<< HEAD
+
       params.require(:item).permit(:title, :description, :price, :user_id, :image, :category_id)
-=======
+
       params.require(:item).permit(:title, :description, :price, :user_id)
->>>>>>> 6d5d9cd7ecbd7caf6903b80376004256dd51da94
+
     end
 end
