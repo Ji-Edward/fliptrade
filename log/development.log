@@ -4008,3 +4008,669 @@ Processing by Devise::RegistrationsController#edit as HTML
   Rendered devise/registrations/edit.html.erb within layouts/application (2.0ms)
   [1m[36mCategory Load (0.1ms)[0m  [1mSELECT "categories".* FROM "categories"[0m
 Completed 200 OK in 57ms (Views: 55.0ms | ActiveRecord: 0.3ms)
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to AddRoleToUser (20151202003915)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.6ms)[0m  [1mALTER TABLE "users" ADD "role" varchar[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20151202003915"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_items_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_items_on_user_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateMailboxer (20151202004917)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.4ms)[0m  [1mCREATE TABLE "mailboxer_conversations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "subject" varchar DEFAULT '', "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "mailboxer_receipts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "receiver_id" integer, "receiver_type" varchar, "notification_id" integer NOT NULL, "is_read" boolean DEFAULT 'f', "trashed" boolean DEFAULT 'f', "deleted" boolean DEFAULT 'f', "mailbox_type" varchar(25), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mCREATE TABLE "mailboxer_notifications" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "type" varchar, "body" text, "subject" varchar DEFAULT '', "sender_id" integer, "sender_type" varchar, "conversation_id" integer, "draft" boolean DEFAULT 'f', "notification_code" varchar, "notified_object_id" integer, "notified_object_type" varchar, "attachment" varchar, "updated_at" datetime NOT NULL, "created_at" datetime NOT NULL, "global" boolean DEFAULT 'f', "expires" datetime) [0m
+  [1m[35m (1.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_mailboxer_receipts_on_notification_id" ON "mailboxer_receipts" ("notification_id")[0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "index_mailboxer_notifications_on_conversation_id" ON "mailboxer_notifications" ("conversation_id")
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20151202004917"]]
+  [1m[35m (0.8ms)[0m  commit transaction
+Migrating to AddConversationOptout (20151202004918)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  CREATE TABLE "mailboxer_conversation_opt_outs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "unsubscriber_id" integer, "unsubscriber_type" varchar, "conversation_id" integer) 
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20151202004918"]]
+  [1m[35m (0.6ms)[0m  commit transaction
+Migrating to AddMissingIndices (20151202004919)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  CREATE  INDEX "index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type" ON "mailboxer_conversation_opt_outs" ("unsubscriber_id", "unsubscriber_type")
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "index_mailboxer_conversation_opt_outs_on_conversation_id" ON "mailboxer_conversation_opt_outs" ("conversation_id")
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_notifications_on_conversation_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_notifications_on_conversation_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "index_mailboxer_notifications_on_type" ON "mailboxer_notifications" ("type")
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_notifications_on_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_notifications_on_type' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_notifications_on_conversation_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_notifications_on_conversation_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_mailboxer_notifications_on_sender_id_and_sender_type" ON "mailboxer_notifications" ("sender_id", "sender_type")[0m
+  [1m[35m (0.0ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_notifications_on_sender_id_and_sender_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_notifications_on_sender_id_and_sender_type' AND type='index'
+
+  [1m[36m (0.0ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_notifications_on_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_notifications_on_type' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_notifications_on_conversation_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_notifications_on_conversation_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_mailboxer_notifications_on_notified_object_id_and_type" ON "mailboxer_notifications" ("notified_object_id", "notified_object_type")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_receipts_on_notification_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_receipts_on_notification_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_mailboxer_receipts_on_receiver_id_and_receiver_type" ON "mailboxer_receipts" ("receiver_id", "receiver_type")[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20151202004919"]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.1ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_items_on_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_items_on_user_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_conversation_opt_outs_on_conversation_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_conversation_opt_outs_on_conversation_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_conversation_opt_outs_on_unsubscriber_id_type' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_notifications_on_notified_object_id_and_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_notifications_on_notified_object_id_and_type' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_notifications_on_sender_id_and_sender_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_notifications_on_sender_id_and_sender_type' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_notifications_on_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_notifications_on_type' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_notifications_on_conversation_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_notifications_on_conversation_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_receipts_on_receiver_id_and_receiver_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_receipts_on_receiver_id_and_receiver_type' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_mailboxer_receipts_on_notification_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_mailboxer_receipts_on_notification_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+[0m
+
+
+Started GET "/" for ::1 at 2015-12-01 21:22:32 -0500
+  [1m[36mActiveRecord::SchemaMigration Load (1.8ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by StorefrontController#all_items as HTML
+  [1m[35mItem Load (0.6ms)[0m  SELECT "items".* FROM "items"
+  [1m[36mUser Load (0.9ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mUser Load (0.1ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 2]]
+  Rendered storefront/all_items.html.erb within layouts/application (93.3ms)
+  [1m[35mUser Load (1.5ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1  [["id", 4]]
+  [1m[36mCategory Load (0.4ms)[0m  [1mSELECT "categories".* FROM "categories"[0m
+Completed 200 OK in 1195ms (Views: 1160.9ms | ActiveRecord: 5.0ms)
+
+
+Started GET "/assets/application.self-b67d1c98c973a0f2072e5f9210eed130e51f4252fa60655bad0aaed6855032b0.css?body=1" for ::1 at 2015-12-01 21:22:34 -0500
+
+
+Started GET "/images/thumb/missing.png" for ::1 at 2015-12-01 21:22:34 -0500
+
+ActionController::RoutingError (No route matches [GET] "/images/thumb/missing.png"):
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  vendor/cache/gems/web-console-2.2.1/lib/web_console/middleware.rb:39:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  vendor/cache/gems/railties-4.2.4/lib/rails/rack/logger.rb:38:in `call_app'
+  vendor/cache/gems/railties-4.2.4/lib/rails/rack/logger.rb:20:in `block in call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/tagged_logging.rb:26:in `tagged'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/tagged_logging.rb:68:in `tagged'
+  vendor/cache/gems/railties-4.2.4/lib/rails/rack/logger.rb:20:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/methodoverride.rb:22:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/runtime.rb:18:in `call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/lock.rb:17:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/static.rb:116:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/sendfile.rb:113:in `call'
+  vendor/cache/gems/railties-4.2.4/lib/rails/engine.rb:518:in `call'
+  vendor/cache/gems/railties-4.2.4/lib/rails/application.rb:165:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/lock.rb:17:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/content_length.rb:15:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/handler/webrick.rb:88:in `service'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.1ms)
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/routes/_route.html.erb (2.8ms)
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/routes/_table.html.erb (11.2ms)
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.7ms)
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (192.1ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.5ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.8ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (184.9ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (1.3ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (272.9ms)
+
+
+Started GET "/users/sign_in" for ::1 at 2015-12-01 21:22:38 -0500
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (1.3ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (20.8ms)
+  [1m[35mCategory Load (0.2ms)[0m  SELECT "categories".* FROM "categories"
+Completed 200 OK in 68ms (Views: 64.8ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/users/sign_up" for ::1 at 2015-12-01 21:22:41 -0500
+Processing by Devise::RegistrationsController#new as HTML
+  Rendered devise/shared/_links.html.erb (0.3ms)
+  Rendered devise/registrations/new.html.erb within layouts/application (3.3ms)
+  [1m[36mCategory Load (0.2ms)[0m  [1mSELECT "categories".* FROM "categories"[0m
+Completed 200 OK in 51ms (Views: 49.8ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/users/sign_in" for ::1 at 2015-12-01 21:22:42 -0500
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (0.4ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (3.2ms)
+  [1m[35mCategory Load (0.2ms)[0m  SELECT "categories".* FROM "categories"
+Completed 200 OK in 49ms (Views: 47.7ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/users/sign_up" for ::1 at 2015-12-01 21:22:45 -0500
+Processing by Devise::RegistrationsController#new as HTML
+  Rendered devise/shared/_links.html.erb (0.2ms)
+  Rendered devise/registrations/new.html.erb within layouts/application (2.3ms)
+  [1m[36mCategory Load (0.2ms)[0m  [1mSELECT "categories".* FROM "categories"[0m
+Completed 200 OK in 61ms (Views: 59.7ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/messages" for ::1 at 2015-12-01 21:22:59 -0500
+
+ActionController::RoutingError (No route matches [GET] "/messages"):
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  vendor/cache/gems/web-console-2.2.1/lib/web_console/middleware.rb:39:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  vendor/cache/gems/railties-4.2.4/lib/rails/rack/logger.rb:38:in `call_app'
+  vendor/cache/gems/railties-4.2.4/lib/rails/rack/logger.rb:20:in `block in call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/tagged_logging.rb:26:in `tagged'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/tagged_logging.rb:68:in `tagged'
+  vendor/cache/gems/railties-4.2.4/lib/rails/rack/logger.rb:20:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/methodoverride.rb:22:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/runtime.rb:18:in `call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/lock.rb:17:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/static.rb:116:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/sendfile.rb:113:in `call'
+  vendor/cache/gems/railties-4.2.4/lib/rails/engine.rb:518:in `call'
+  vendor/cache/gems/railties-4.2.4/lib/rails/application.rb:165:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/lock.rb:17:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/content_length.rb:15:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/handler/webrick.rb:88:in `service'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.6ms)
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/routes/_route.html.erb (2.9ms)
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.4ms)
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (2.1ms)
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (83.5ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (0.5ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.5ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (49.6ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (108.9ms)
+
+
+Started GET "/conversations" for ::1 at 2015-12-01 21:23:17 -0500
+
+AbstractController::ActionNotFound (The action 'index' could not be found for ConversationsController):
+  vendor/cache/gems/actionpack-4.2.4/lib/abstract_controller/base.rb:132:in `process'
+  vendor/cache/gems/actionview-4.2.4/lib/action_view/rendering.rb:30:in `process'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal.rb:196:in `dispatch'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal.rb:237:in `block in action'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/routing/route_set.rb:76:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/routing/route_set.rb:76:in `dispatch'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/routing/route_set.rb:45:in `serve'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/journey/router.rb:43:in `block in serve'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/journey/router.rb:30:in `each'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/journey/router.rb:30:in `serve'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/routing/route_set.rb:821:in `call'
+  vendor/cache/gems/warden-1.2.3/lib/warden/manager.rb:35:in `block in call'
+  vendor/cache/gems/warden-1.2.3/lib/warden/manager.rb:34:in `catch'
+  vendor/cache/gems/warden-1.2.3/lib/warden/manager.rb:34:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/etag.rb:24:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/conditionalget.rb:25:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/head.rb:13:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/flash.rb:260:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/session/abstract/id.rb:225:in `context'
+  vendor/cache/gems/rack-1.6.4/lib/rack/session/abstract/id.rb:220:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/cookies.rb:560:in `call'
+  vendor/cache/gems/activerecord-4.2.4/lib/active_record/query_cache.rb:36:in `call'
+  vendor/cache/gems/activerecord-4.2.4/lib/active_record/connection_adapters/abstract/connection_pool.rb:653:in `call'
+  vendor/cache/gems/activerecord-4.2.4/lib/active_record/migration.rb:377:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/callbacks.rb:88:in `__run_callbacks__'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/callbacks.rb:778:in `_run_call_callbacks'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/callbacks.rb:81:in `run_callbacks'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/remote_ip.rb:78:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  vendor/cache/gems/web-console-2.2.1/lib/web_console/middleware.rb:39:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  vendor/cache/gems/railties-4.2.4/lib/rails/rack/logger.rb:38:in `call_app'
+  vendor/cache/gems/railties-4.2.4/lib/rails/rack/logger.rb:20:in `block in call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/tagged_logging.rb:26:in `tagged'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/tagged_logging.rb:68:in `tagged'
+  vendor/cache/gems/railties-4.2.4/lib/rails/rack/logger.rb:20:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/methodoverride.rb:22:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/runtime.rb:18:in `call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/lock.rb:17:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/static.rb:116:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/sendfile.rb:113:in `call'
+  vendor/cache/gems/railties-4.2.4/lib/rails/engine.rb:518:in `call'
+  vendor/cache/gems/railties-4.2.4/lib/rails/application.rb:165:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/lock.rb:17:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/content_length.rb:15:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/handler/webrick.rb:88:in `service'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/unknown_action.html.erb within rescues/layout (0.5ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (46.9ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.5ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (105.5ms)
+
+
+Started GET "/conversations" for ::1 at 2015-12-01 21:24:02 -0500
+Processing by ConversationsController#index as HTML
+Completed 401 Unauthorized in 3ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/users/sign_in" for ::1 at 2015-12-01 21:24:02 -0500
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (0.3ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (3.1ms)
+  [1m[35mCategory Load (0.1ms)[0m  SELECT "categories".* FROM "categories"
+Completed 200 OK in 51ms (Views: 40.5ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/users/sign_in" for ::1 at 2015-12-01 21:24:04 -0500
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (0.4ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (3.6ms)
+  [1m[36mCategory Load (0.1ms)[0m  [1mSELECT "categories".* FROM "categories"[0m
+Completed 200 OK in 42ms (Views: 40.2ms | ActiveRecord: 0.1ms)
+
+
+Started GET "/users/sign_up" for ::1 at 2015-12-01 21:24:05 -0500
+Processing by Devise::RegistrationsController#new as HTML
+  Rendered devise/shared/_links.html.erb (0.4ms)
+  Rendered devise/registrations/new.html.erb within layouts/application (2.5ms)
+  [1m[35mCategory Load (0.2ms)[0m  SELECT "categories".* FROM "categories"
+Completed 200 OK in 51ms (Views: 50.0ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/users/sign_in" for ::1 at 2015-12-01 21:24:07 -0500
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (0.3ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (3.2ms)
+  [1m[36mCategory Load (0.1ms)[0m  [1mSELECT "categories".* FROM "categories"[0m
+Completed 200 OK in 43ms (Views: 41.4ms | ActiveRecord: 0.1ms)
+
+
+Started POST "/users/sign_in" for ::1 at 2015-12-01 21:24:18 -0500
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"NuCER+n54r+uNm1Oxx6LRNcNjTl1OkvLM/Lv/YS18/V8MJk6zpJQ4r9hlBuKb3baOKWkzWJ4VD1+XXFB12sbbA==", "user"=>{"email"=>"summersc99@gmail.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[35mUser Load (0.5ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."email" = ?  ORDER BY "users"."id" ASC LIMIT 1  [["email", "summersc99@gmail.com"]]
+Completed 401 Unauthorized in 3ms (ActiveRecord: 0.5ms)
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"NuCER+n54r+uNm1Oxx6LRNcNjTl1OkvLM/Lv/YS18/V8MJk6zpJQ4r9hlBuKb3baOKWkzWJ4VD1+XXFB12sbbA==", "user"=>{"email"=>"summersc99@gmail.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  Rendered devise/shared/_links.html.erb (0.2ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (3.0ms)
+  [1m[36mCategory Load (0.1ms)[0m  [1mSELECT "categories".* FROM "categories"[0m
+Completed 200 OK in 138ms (Views: 45.6ms | ActiveRecord: 0.1ms)
+
+
+Started GET "/messages" for ::1 at 2015-12-01 21:24:34 -0500
+
+ActionController::RoutingError (No route matches [GET] "/messages"):
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  vendor/cache/gems/web-console-2.2.1/lib/web_console/middleware.rb:39:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  vendor/cache/gems/railties-4.2.4/lib/rails/rack/logger.rb:38:in `call_app'
+  vendor/cache/gems/railties-4.2.4/lib/rails/rack/logger.rb:20:in `block in call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/tagged_logging.rb:26:in `tagged'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/tagged_logging.rb:68:in `tagged'
+  vendor/cache/gems/railties-4.2.4/lib/rails/rack/logger.rb:20:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/methodoverride.rb:22:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/runtime.rb:18:in `call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/lock.rb:17:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/static.rb:116:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/sendfile.rb:113:in `call'
+  vendor/cache/gems/railties-4.2.4/lib/rails/engine.rb:518:in `call'
+  vendor/cache/gems/railties-4.2.4/lib/rails/application.rb:165:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/lock.rb:17:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/content_length.rb:15:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/handler/webrick.rb:88:in `service'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.8ms)
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/routes/_route.html.erb (2.8ms)
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.3ms)
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.2ms)
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (79.9ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.4ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (44.0ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (100.1ms)
+
+
+Started GET "/conversations" for ::1 at 2015-12-01 21:24:48 -0500
+Processing by ConversationsController#index as HTML
+Completed 401 Unauthorized in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/users/sign_in" for ::1 at 2015-12-01 21:24:48 -0500
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.html.erb (0.2ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (2.5ms)
+  [1m[35mCategory Load (0.1ms)[0m  SELECT "categories".* FROM "categories"
+Completed 200 OK in 40ms (Views: 38.8ms | ActiveRecord: 0.1ms)
+
+
+Started POST "/users/sign_in" for ::1 at 2015-12-01 21:25:00 -0500
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"zkZZkvDaDxlQdCxB/2Rf6wlWwfHpJoJ2X2aUkVeLd9iElkTv17G9REEj1RSyFaJ15v7oBf5knYASyQotBFWfQQ==", "user"=>{"email"=>"email@email.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = ?  ORDER BY "users"."id" ASC LIMIT 1[0m  [["email", "email@email.com"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mUPDATE "users" SET "last_sign_in_at" = ?, "current_sign_in_at" = ?, "sign_in_count" = ?, "updated_at" = ? WHERE "users"."id" = ?[0m  [["last_sign_in_at", "2015-12-01 15:53:37.806465"], ["current_sign_in_at", "2015-12-02 02:25:00.909807"], ["sign_in_count", 3], ["updated_at", "2015-12-02 02:25:00.910662"], ["id", 1]]
+  [1m[35m (0.7ms)[0m  commit transaction
+Redirected to http://localhost:3000/conversations
+Completed 302 Found in 99ms (ActiveRecord: 1.7ms)
+
+
+Started GET "/conversations" for ::1 at 2015-12-01 21:25:00 -0500
+Processing by ConversationsController#index as HTML
+  [1m[36mUser Load (0.2ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1[0m  [["id", 1]]
+Completed 500 Internal Server Error in 8ms (ActiveRecord: 0.2ms)
+
+ActionView::MissingTemplate (Missing template conversations/index, application/index with {:locale=>[:en], :formats=>[:html], :variants=>[], :handlers=>[:erb, :builder, :raw, :ruby, :coffee, :jbuilder]}. Searched in:
+  * "/Users/colinsummers/Desktop/fliptrade/app/views"
+  * "/Users/colinsummers/Desktop/fliptrade/vendor/cache/gems/mailboxer-0.13.0/app/views"
+  * "/Users/colinsummers/Desktop/fliptrade/vendor/cache/gems/devise-3.5.2/app/views"
+):
+  vendor/cache/gems/actionview-4.2.4/lib/action_view/path_set.rb:46:in `find'
+  vendor/cache/gems/actionview-4.2.4/lib/action_view/lookup_context.rb:121:in `find'
+  vendor/cache/gems/actionview-4.2.4/lib/action_view/renderer/abstract_renderer.rb:18:in `find_template'
+  vendor/cache/gems/actionview-4.2.4/lib/action_view/renderer/template_renderer.rb:40:in `determine_template'
+  vendor/cache/gems/actionview-4.2.4/lib/action_view/renderer/template_renderer.rb:8:in `render'
+  vendor/cache/gems/actionview-4.2.4/lib/action_view/renderer/renderer.rb:42:in `render_template'
+  vendor/cache/gems/actionview-4.2.4/lib/action_view/renderer/renderer.rb:23:in `render'
+  vendor/cache/gems/actionview-4.2.4/lib/action_view/rendering.rb:100:in `_render_template'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/streaming.rb:217:in `_render_template'
+  vendor/cache/gems/actionview-4.2.4/lib/action_view/rendering.rb:83:in `render_to_body'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/rendering.rb:32:in `render_to_body'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/renderers.rb:37:in `render_to_body'
+  vendor/cache/gems/actionpack-4.2.4/lib/abstract_controller/rendering.rb:25:in `render'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/rendering.rb:16:in `render'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/instrumentation.rb:44:in `block (2 levels) in render'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/benchmark.rb:303:in `realtime'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/instrumentation.rb:44:in `block in render'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/instrumentation.rb:87:in `cleanup_view_runtime'
+  vendor/cache/gems/activerecord-4.2.4/lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/instrumentation.rb:43:in `render'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  vendor/cache/gems/actionpack-4.2.4/lib/abstract_controller/base.rb:198:in `process_action'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/rendering.rb:10:in `process_action'
+  vendor/cache/gems/actionpack-4.2.4/lib/abstract_controller/callbacks.rb:20:in `block in process_action'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/callbacks.rb:117:in `call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/callbacks.rb:117:in `call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/callbacks.rb:555:in `block (2 levels) in compile'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/callbacks.rb:505:in `call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/callbacks.rb:505:in `call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/callbacks.rb:92:in `__run_callbacks__'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/callbacks.rb:778:in `_run_process_action_callbacks'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/callbacks.rb:81:in `run_callbacks'
+  vendor/cache/gems/actionpack-4.2.4/lib/abstract_controller/callbacks.rb:19:in `process_action'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/rescue.rb:29:in `process_action'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/instrumentation.rb:32:in `block in process_action'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/notifications.rb:164:in `block in instrument'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/notifications.rb:164:in `instrument'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  vendor/cache/gems/activerecord-4.2.4/lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  vendor/cache/gems/actionpack-4.2.4/lib/abstract_controller/base.rb:137:in `process'
+  vendor/cache/gems/actionview-4.2.4/lib/action_view/rendering.rb:30:in `process'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal.rb:196:in `dispatch'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_controller/metal.rb:237:in `block in action'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/routing/route_set.rb:76:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/routing/route_set.rb:76:in `dispatch'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/routing/route_set.rb:45:in `serve'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/journey/router.rb:43:in `block in serve'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/journey/router.rb:30:in `each'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/journey/router.rb:30:in `serve'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/routing/route_set.rb:821:in `call'
+  vendor/cache/gems/warden-1.2.3/lib/warden/manager.rb:35:in `block in call'
+  vendor/cache/gems/warden-1.2.3/lib/warden/manager.rb:34:in `catch'
+  vendor/cache/gems/warden-1.2.3/lib/warden/manager.rb:34:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/etag.rb:24:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/conditionalget.rb:25:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/head.rb:13:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/flash.rb:260:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/session/abstract/id.rb:225:in `context'
+  vendor/cache/gems/rack-1.6.4/lib/rack/session/abstract/id.rb:220:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/cookies.rb:560:in `call'
+  vendor/cache/gems/activerecord-4.2.4/lib/active_record/query_cache.rb:36:in `call'
+  vendor/cache/gems/activerecord-4.2.4/lib/active_record/connection_adapters/abstract/connection_pool.rb:653:in `call'
+  vendor/cache/gems/activerecord-4.2.4/lib/active_record/migration.rb:377:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/callbacks.rb:88:in `__run_callbacks__'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/callbacks.rb:778:in `_run_call_callbacks'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/callbacks.rb:81:in `run_callbacks'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/remote_ip.rb:78:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  vendor/cache/gems/web-console-2.2.1/lib/web_console/middleware.rb:39:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  vendor/cache/gems/railties-4.2.4/lib/rails/rack/logger.rb:38:in `call_app'
+  vendor/cache/gems/railties-4.2.4/lib/rails/rack/logger.rb:20:in `block in call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/tagged_logging.rb:26:in `tagged'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/tagged_logging.rb:68:in `tagged'
+  vendor/cache/gems/railties-4.2.4/lib/rails/rack/logger.rb:20:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/methodoverride.rb:22:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/runtime.rb:18:in `call'
+  vendor/cache/gems/activesupport-4.2.4/lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/lock.rb:17:in `call'
+  vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/static.rb:116:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/sendfile.rb:113:in `call'
+  vendor/cache/gems/railties-4.2.4/lib/rails/engine.rb:518:in `call'
+  vendor/cache/gems/railties-4.2.4/lib/rails/application.rb:165:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/lock.rb:17:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/content_length.rb:15:in `call'
+  vendor/cache/gems/rack-1.6.4/lib/rack/handler/webrick.rb:88:in `service'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /Users/colinsummers/.rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_source.erb (7.3ms)
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.3ms)
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.1ms)
+  Rendered vendor/cache/gems/actionpack-4.2.4/lib/action_dispatch/middleware/templates/rescues/missing_template.html.erb within rescues/layout (56.8ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.4ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/console.js.erb within layouts/javascript (44.4ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/main.js.erb within layouts/javascript (0.4ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.4ms)
+  Rendered vendor/cache/gems/web-console-2.2.1/lib/web_console/templates/index.html.erb (106.7ms)
