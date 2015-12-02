@@ -4,32 +4,35 @@
   <%= devise_error_messages! %>
 
   <div class="field">
-    <%= f.email_field :email, autofocus: true, placeholder: "Email" %>
-  </div><br />
-
-  
-  <div class="field">
-    <%= f.text_field :name, autofocus: true, placeholder: "First and Last Name" %>
+	<%= f.email_field :email, autofocus: true, placeholder: "Email" %>
   </div><br />
 
   <div class="field">
-    <%= f.text_field :username, placeholder: "Username" %>
+	<%= f.text_field :name, autofocus: true, placeholder: "First and Last Name" %>
+  </div><br />
+
+  <div class="field">
+	<%= f.text_field :username, placeholder: "Username" %>
   </div><br />
 
 
   <div class="field">
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %>
-    <%= f.password_field :password, autocomplete: "off", placeholder: "Password" %>
+	<%= f.password_field :password, autocomplete: "off", placeholder: "Password" %>
+		<% if @minimum_password_length %>
+		<em>(<%= @minimum_password_length %> characters minimum)</em>
+	<% end %>
   </div><br />
 
   <div class="field">
-    <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirm Password" %>
+	<%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirm Password" %>
   </div><br />
 
   <div class="actions">
-    <%= f.submit "Sign up" %>
+	<%= f.submit "Sign up" %>
+  </div>
+
+  <div class="hidden">
+	<%= f.text_field :role, value: "guest" %>
   </div>
 <% end %>
 

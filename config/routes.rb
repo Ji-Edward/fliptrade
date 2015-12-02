@@ -1,15 +1,28 @@
 Rails.application.routes.draw do
+  root 'storefront#all_items'
 
   resources :categories
   resources :items
+    resources :conversations do
+      member do
+        post :reply
+        post :trash
+        post :untrash
+    end
+  end
+
   devise_for :users
-  
+
   get 'my_items' => 'items#my_items'
   get 'categorical' => 'storefront#items_by_category'
-  
-  root 'storefront#all_items'
 
-  
+  get "mailbox/inbox" => "mailbox#inbox", as: :mailbox_inbox
+  get "mailbox/sent" => "mailbox#sent", as: :mailbox_sent
+  get "mailbox/trash" => "mailbox#trash", as: :mailbox_trash
+
+
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
