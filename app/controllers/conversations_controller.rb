@@ -1,14 +1,16 @@
 class ConversationsController < ApplicationController
   before_action :authenticate_user!
+    helper_method :mailbox, :conversation
 
   def index
   end
 
   def new
+    @user = params[:user]
   end
 
   def create
-    recipients = User.where(id: conversation_params[:recipients])
+    recipients = User.find(conversation_params[:recipients])
     conversation = current_user.send_message(recipients, conversation_params[:body], conversation_params[:subject]).conversation
     flash[:success] = "Your message was successfully sent!"
     redirect_to conversation_path(conversation)
@@ -18,6 +20,8 @@ class ConversationsController < ApplicationController
     @receipts = conversation.receipts_for(current_user)
     # mark conversation as read
     conversation.mark_as_read(current_user)
+    @recipient = User.find(id: conversation_params[:recipients])
+
   end
 
   def reply
@@ -40,7 +44,7 @@ class ConversationsController < ApplicationController
   private
 
   def conversation_params
-    params.require(:conversation).permit(:subject, :body, recipients:[])
+    params.require(:conversation).permit(:subject, :body, :recipients)
   end
 
 end

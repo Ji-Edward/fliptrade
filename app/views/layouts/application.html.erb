@@ -6,6 +6,8 @@
   
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js' %>
+  
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -21,12 +23,14 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-
+        
+      <%= link_to "FlipTrade", root_path, class: "navbar-brand" %>
       
       <ul class="nav navbar-nav">
-        <li><%= link_to "All Items", items_path %></li>
+        <li><%= link_to "All Items", root_path %></li>
         <li><%= link_to "My Items", my_items_path %></li>
         <li><%= link_to "Add Item", new_item_path %></li>
+        
         <li class = "dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Find By Category<span class="caret"></span></a>
         <ul class="dropdown-menu" role="menu">
@@ -43,7 +47,7 @@
       
 
       <ul class="nav navbar-nav navbar-right">
-        
+        <li><%= link_to "Inbox", mailbox_inbox_path %></li>
         <li><%= link_to "Sign Out", destroy_user_session_path, :method => :delete %></li>
         <li> <%= link_to "Edit Profile", edit_user_registration_path %></li>
       </ul>
@@ -65,6 +69,7 @@
       </button>
       
       <ul class="nav navbar-nav">
+        <a class="navbar-brand" href="#">Brand</a>
         <li><%= link_to "All Items", items_path %></li>
         <li class = "dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Find By Category<span class="caret"></span></a>
